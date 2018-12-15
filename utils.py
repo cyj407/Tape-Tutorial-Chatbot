@@ -1,12 +1,12 @@
 import requests
+import os
 
 
 GRAPH_URL = "https://graph.facebook.com/v2.6"
-ACCESS_TOKEN = "Your Page Access Token"
 
-
+# 送文字訊息
 def send_text_message(id, text):
-    url = "{0}/me/messages?access_token={1}".format(GRAPH_URL, ACCESS_TOKEN)
+    url = "{0}/me/messages?access_token={1}".format(GRAPH_URL, os.environ.get("ACCESS_TOKEN"))
     payload = {
         "recipient": {"id": id},
         "message": {"text": text}
@@ -18,10 +18,10 @@ def send_text_message(id, text):
     return response
 
 
-"""
+# 送圖片
 def send_image_url(id, img_url):
     pass
 
+# 送按鈕
 def send_button_message(id, text, buttons):
     pass
-"""

@@ -10,28 +10,53 @@ class TocMachine(GraphMachine):
             **machine_configs
         )
 
-    def is_going_to_state1(self, event):
+    def arm_taping_first(self, event):
         if event.get("message"):
             text = event['message']['text']
-            return text.lower() == 'go to state1'
+            return text.lower() == 'arm'
         return False
 
-    def is_going_to_state2(self, event):
+    def body_taping_first(self, event):
         if event.get("message"):
             text = event['message']['text']
-            return text.lower() == 'go to state2'
+            return text.lower() == 'body'
+        return False
+    
+    def leg_taping_first(self, event):
+        if event.get("message"):
+            text = event['message']['text']
+            return text.lower() == 'leg'
         return False
 
-    def on_enter_state1(self, event):
-        print("I'm entering state1")
+    def on_enter_arm(self, event):
+        output = "I'm entering arm"
+        print(output)
 
         sender_id = event['sender']['id']
-        responese = send_text_message(sender_id, "I'm entering state1")
-        self.go_back()
+        responese = send_text_message(sender_id, output)
+        # self.go_back()
 
+    def on_enter_body(self, event):
+        output = "I'm entering body"
+        print(output)
+
+        sender_id = event['sender']['id']
+        responese = send_text_message(sender_id, output)
+
+    def on_enter_leg(self, event):
+        output = "I'm entering leg"
+        print(output)
+
+        sender_id = event['sender']['id']
+        responese = send_text_message(sender_id, output)
+
+    '''
     def on_exit_state1(self):
         print('Leaving state1')
+    '''
 
+
+    '''
     def on_enter_state2(self, event):
         print("I'm entering state2")
 
@@ -41,3 +66,4 @@ class TocMachine(GraphMachine):
 
     def on_exit_state2(self):
         print('Leaving state2')
+    '''

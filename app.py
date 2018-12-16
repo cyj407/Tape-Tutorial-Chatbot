@@ -26,6 +26,7 @@ machine = TocMachine(
         'QUADRICEPS_FINAL',       # 股四頭肌
         'TIBIALIS_FINAL',         # 脛前肌
         'GASTRO_FINAL',           # 腓腸肌
+        'finish'
     ],
     transitions=[
         {
@@ -47,19 +48,19 @@ machine = TocMachine(
             'conditions': 'leg_taping_first'
         },
         {   # arm
-            'trigger': 'advance',
+            'trigger': 'choose',
             'source': 'arm',
             'dest': 'ECUM',     
             'conditions': 'arm_taping_second'
         },
         {   # arm
-            'trigger': 'advance',
+            'trigger': 'choose',
             'source': 'arm',
             'dest': 'FCUM',     
             'conditions': 'arm_taping_second'
         },
         {   # arm
-            'trigger': 'advance',
+            'trigger': 'choose',
             'source': 'arm',
             'dest': 'TRICEPS',     
             'conditions': 'arm_taping_second'
@@ -143,7 +144,7 @@ machine = TocMachine(
             'conditions': 'leg_taping_final'
         },
         {
-            'trigger': 'go_back',
+            'trigger': 'advance',
             'source': [
                 'ECUM_FINAL',             # 伸腕肌
                 'FCUM_FINAL',             # 屈腕肌 
@@ -154,6 +155,11 @@ machine = TocMachine(
                 'TIBIALIS_FINAL',         # 脛前肌
                 'GASTRO_FINAL',           # 腓腸肌
             ],
+            'dest': 'finish'
+        },
+        {
+            'trigger': 'go_back',
+            'source': 'finish',
             'dest': 'user'
         }
     ],
@@ -186,7 +192,8 @@ def webhook_handler():
 
     if body['object'] == "page":
         event = body['entry'][0]['messaging'][0]
-        machine.advance(event)
+        if(event and machine.state != "arm"):
+            machine.advance(event)
         return 'OK'
 
 

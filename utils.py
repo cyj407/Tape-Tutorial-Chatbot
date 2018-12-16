@@ -36,28 +36,22 @@ def send_image_url(id, image_url):
     return response
 
 # 送按鈕
-def send_button_message(id):
+def send_button_message(id, text, muscle):
     url = "{0}/me/messages?access_token={1}".format(GRAPH_URL, os.environ.get("ACCESS_TOKEN"))
+    option = []
+    for idx in muscle:
+        tmp = {
+            "content_type": "text",
+            "payload": 5,
+            "title": idx
+        }
+        option.append(tmp)
+
     payload = {
         "recipient":{"id": id},
         "message":{
-            "text": "請選擇要貼紮的部位：",
-            "quick_replies":[
-            {
-                "content_type": "text",
-                "payload": 5,
-                "title": "xx肌肉"
-            },
-            {
-                "content_type": "text",
-                "payload": 5,
-                "title": "xx肌肉"
-            },
-            {
-                "content_type": "text",
-                "payload": 5,
-                "title": "xx肌肉"
-            }]
+            "text": text,
+            "quick_replies": option
         }
     }
     response = requests.post(url, json=payload)

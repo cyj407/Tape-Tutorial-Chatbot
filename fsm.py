@@ -1,13 +1,15 @@
 from transitions.extensions import GraphMachine
-
 from utils import send_text_message
 from utils import send_image_url
 from utils import send_button_message
-
+from seg import seg_word
+from scrape import getHotKey
 
 class TocMachine(GraphMachine):
     muscle = []
     target = ""
+    notFound = 0
+
     video_url = {
         "伸腕肌": "https://www.youtube.com/watch?v=t5FBuiUtT7c",
         "屈腕肌": "https://www.youtube.com/watch?v=s5IXNb3hGrs",
@@ -25,12 +27,27 @@ class TocMachine(GraphMachine):
             model=self,
             **machine_configs
         )
+    
+    def no_advance_cond(self, event):
+        print("in no_advance_cond")
+        if(self.notFound >= 3):
+            self.notFound = 0
+            return True
+        else:
+            self.notFound = 0
+            return False
 
     def arm_taping_first(self, event):
         print("in arm_taping_first")
         if event.get("message"):
+            if('attachments' in event['message']):
+                return False
             text = event['message']['text']
-            return text.lower() == '手'
+            seg_result = seg_word(text)
+            for idx in seg_result:
+                if(idx.find('手') != -1 or idx.find('腕') != -1 or idx.find('肘') != -1):
+                    return True
+        self.notFound = self.notFound + 1
         return False
 
     def arm_taping_second(self, event):
@@ -47,8 +64,15 @@ class TocMachine(GraphMachine):
     def body_taping_first(self, event):
         print("in body_taping_first")
         if event.get("message"):
+            if('attachments' in event['message']):
+                return False
             text = event['message']['text']
-            return text == '軀幹'
+            seg_result = seg_word(text)
+            for idx in seg_result:
+                if(idx.find('軀幹') != -1 or idx.find('腰') != -1 \
+                or idx.find('背') != -1 or idx.find('肩') != -1):
+                    return True
+        self.notFound = self.notFound + 1
         return False
 
     def body_taping_second(self, event):
@@ -65,8 +89,17 @@ class TocMachine(GraphMachine):
     def leg_taping_first(self, event):
         print("in leg_taping_first")
         if event.get("message"):
+            if('attachments' in event['message']):
+                return False
             text = event['message']['text']
-            return text == '腿'
+            seg_result = seg_word(text)
+            for idx in seg_result:
+                if(idx.find('腿') != -1 or idx.find('腳') != -1 or idx.find('膝') != -1):
+                    return True
+        self.notFound = self.notFound + 1
+        #sender_id = event['sender']['id']
+        #responese = send_text_message(sender_id, "對不起無法找到結果，請輸入與身體部位有關的關鍵字")
+        #responese = send_button_message(sender_id, "你可以考慮選擇熱門搜尋：", getHotKey())
         return False
 
     def leg_taping_second(self, event):
@@ -150,13 +183,13 @@ class TocMachine(GraphMachine):
         output = self.video_url[self.target]
         responese = send_text_message(sender_id, "以下是"+ self.target + "的教學影片：")
         responese = send_text_message(sender_id, output)
-        responese = send_text_message(sender_id, "請問這個影片是否對你有幫助？")
+        responese = send_button_message(sender_id, "按下面按鈕以繼續", ["看其他影片"])
 
     def on_enter_start(self, event):
         print("return user")
         sender_id = event['sender']['id']
-        responese = send_text_message(sender_id, "謝謝你的回饋！")
         responese = send_text_message(sender_id, "請描述你想要貼紮的部位~")
+        responese = send_button_message(sender_id, "你可以考慮選擇熱門搜尋：", getHotKey())
 
     def response(self, event):
         print("in response")

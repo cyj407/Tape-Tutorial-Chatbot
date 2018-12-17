@@ -17,43 +17,49 @@ machine = TocMachine(
     ],
     transitions=[
         {
-            'trigger': 'advance',
+            'trigger': 'check',
             'source': 'start',
             'dest': 'arm',
             'conditions': 'arm_taping_first'
         },
         {
-            'trigger': 'advance',
+            'trigger': 'check',
             'source': 'start',
             'dest': 'body',
             'conditions': 'body_taping_first'
         },
         {
-            'trigger': 'advance',
+            'trigger': 'check',
             'source': 'start',
             'dest': 'leg',
             'conditions': 'leg_taping_first'
         },
+        {
+            'trigger': 'check',
+            'source': 'start',
+            'dest': 'start',
+            'conditions': 'no_advance_cond'
+        },
         {   # arm
-            'trigger': 'advance',
+            'trigger': 'check',
             'source': 'arm',
             'dest': 'arm_muscle',     
             'conditions': 'arm_taping_second'
         },
         {   # body
-            'trigger': 'advance',
+            'trigger': 'check',
             'source': 'body',
             'dest': 'body_muscle',
             'conditions': 'body_taping_second'
         },
         {   # leg
-            'trigger': 'advance',
+            'trigger': 'check',
             'source': 'leg',
             'dest': 'leg_muscle',
             'conditions': 'leg_taping_second'
         },
         {
-            'trigger': 'advance',
+            'trigger': 'check',
             'source': [
                 'arm_muscle',
                 'body_muscle',
@@ -63,7 +69,7 @@ machine = TocMachine(
             'conditions': 'watch_video'
         },
         {
-            'trigger': 'advance',
+            'trigger': 'check',
             'source': [
                 'arm_muscle',
                 'body_muscle',
@@ -73,7 +79,7 @@ machine = TocMachine(
             'conditions': 'watch_other_video'
         },
         {
-            'trigger': 'advance',
+            'trigger': 'check',
             'source': 'finish',
             'dest': 'start',
             'conditions': 'response'
@@ -109,7 +115,7 @@ def webhook_handler():
     if body['object'] == "page":
         event = body['entry'][0]['messaging'][0]
         if(event):
-            machine.advance(event)
+            machine.check(event)
         return 'OK'
 
 # 顯示圖

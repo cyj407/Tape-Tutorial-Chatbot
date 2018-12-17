@@ -45,7 +45,8 @@ class TocMachine(GraphMachine):
             text = event['message']['text']
             seg_result = seg_word(text)
             for idx in seg_result:
-                if(idx.find('手') != -1 or idx.find('腕') != -1 or idx.find('肘') != -1):
+                if(idx.find('手') != -1 or idx.find('腕') != -1 or
+                 idx.find('肘') != -1 or idx.find('Shoulder') != -1):
                     return True
         self.notFound = self.notFound + 1
         return False
@@ -94,12 +95,10 @@ class TocMachine(GraphMachine):
             text = event['message']['text']
             seg_result = seg_word(text)
             for idx in seg_result:
-                if(idx.find('腿') != -1 or idx.find('腳') != -1 or idx.find('膝') != -1):
+                if(idx.find('腿') != -1 or idx.find('腳') != -1 or idx.find('足') != -1\
+                or idx.find('膝') != -1 or idx.find('Knee') != -1):
                     return True
         self.notFound = self.notFound + 1
-        #sender_id = event['sender']['id']
-        #responese = send_text_message(sender_id, "對不起無法找到結果，請輸入與身體部位有關的關鍵字")
-        #responese = send_button_message(sender_id, "你可以考慮選擇熱門搜尋：", getHotKey())
         return False
 
     def leg_taping_second(self, event):
@@ -188,8 +187,7 @@ class TocMachine(GraphMachine):
     def on_enter_start(self, event):
         print("return user")
         sender_id = event['sender']['id']
-        responese = send_text_message(sender_id, "請描述你想要貼紮的部位~")
-        responese = send_button_message(sender_id, "你可以考慮選擇熱門搜尋：", getHotKey())
+        responese = send_button_message(sender_id, "請描述你想要貼紮的部位~ 你可以考慮選擇熱門搜尋：", getHotKey())
 
     def response(self, event):
         print("in response")

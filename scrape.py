@@ -4,7 +4,6 @@ import jieba
 import jieba.analyse
 
 from seg import seg_word
-from seg import seg_noun_word
 
 def getHotKey():
     url_list = ['https://www.youtube.com/results?search_query=%E8%B2%BC%E7%B4%AE',

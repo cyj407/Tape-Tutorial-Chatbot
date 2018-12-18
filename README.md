@@ -1,10 +1,10 @@
 # Tape Tutorial Chatbot
-<img width="100" height="100" src="https://imgur.com/bIQe28E.png">
 
+<img width="200" height="200" src="https://imgur.com/bIQe28E.png">
 
 A [Facebook messenger bot](https://www.facebook.com/%E8%B2%BC%E7%B4%AE%E6%A9%9F%E5%99%A8%E4%BA%BA-296561760877487/) based on a finite state machine
 
-Tape Tutorial can help you find useful videos in Youtube 
+Tape Tutorial can help you get useful videos in Youtube 
 
 ## Finite State Machine
 ![fsm](./fsm.png)
@@ -84,13 +84,13 @@ Every time `start` state is triggered `check` to check whether it can go to othe
 		* 移動到`start` state
 
 ## Feature
-1. ```import re``` to get HTML element information from the URL
+1. Use ```re``` package to get HTML element information from the URL.
     * 熱門搜尋的資料來源 
-2. Use ```jieba``` to segment sentences and get the extract tags.
+2. Use ```jieba``` package to do natural language processing with Chinese.
     * 使用者輸入的訊息會經過斷詞處理
     * 將爬蟲後結果用jieba取出關鍵詞
 3. Send the image to let users know where the muscle is.
-4. Use [quick-reply](https://developers.facebook.com/docs/messenger-platform/send-messages/quick-replies/) to clarify what users can reply without typing.
+4. Send [quick-reply](https://developers.facebook.com/docs/messenger-platform/send-messages/quick-replies/) to clarify what users can reply without typing.
 5. Use [GCP](https://cloud.google.com/) to deploy the chatbot.
 
 ## Setup

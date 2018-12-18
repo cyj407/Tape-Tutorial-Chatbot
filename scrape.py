@@ -15,8 +15,9 @@ def getHotKey():
     result = []
     for i in url_list:
         html = requests.get(i, timeout=30)
-        m = re.compile('<span aria-label="(.*?) 上傳者')
-        result = result + m.findall(html.text)
+        m = re.compile('<span aria-label="(.*?) by')
+        n = re.compile('<span aria-label="(.*?) 上傳者')
+        result = result + m.findall(html.text) + n.findall(html.text)
 
     tags = []
     sum_of_tags = {}
@@ -30,7 +31,6 @@ def getHotKey():
                 sum_of_tags[j] = 1
 
     sorted_tags = sorted(sum_of_tags.items(), key=lambda kv: kv[1], reverse=True) 
-
     hotKey = []
     cnt = 0
     for (key, freq) in sorted_tags:
@@ -42,5 +42,4 @@ def getHotKey():
             or key == '肩部'):
                 cnt = cnt + 1
                 hotKey.append(key)
-
     return hotKey

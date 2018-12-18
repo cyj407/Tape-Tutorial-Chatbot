@@ -57,5 +57,5 @@ def send_button_message(id, text, muscle):
     response = requests.post(url, json=payload)
 
     if response.status_code != 200:
-        print("Unable to send image: " + response.text)
+        print("Unable to send button: " + response.text)
     return response

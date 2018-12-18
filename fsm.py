@@ -41,6 +41,7 @@ class TocMachine(GraphMachine):
         print("in arm_taping_first")
         if event.get("message"):
             if('attachments' in event['message']):
+                self.notFound = self.notFound + 1
                 return False
             text = event['message']['text']
             seg_result = seg_word(text)
@@ -66,6 +67,7 @@ class TocMachine(GraphMachine):
         print("in body_taping_first")
         if event.get("message"):
             if('attachments' in event['message']):
+                self.notFound = self.notFound + 1
                 return False
             text = event['message']['text']
             seg_result = seg_word(text)
@@ -91,6 +93,7 @@ class TocMachine(GraphMachine):
         print("in leg_taping_first")
         if event.get("message"):
             if('attachments' in event['message']):
+                self.notFound = self.notFound + 1
                 return False
             text = event['message']['text']
             seg_result = seg_word(text)
@@ -130,7 +133,7 @@ class TocMachine(GraphMachine):
         output = "I'm entering arm"
         print(output)
         sender_id = event['sender']['id']
-        img_url = "https://i.imgur.com/fTj1ubb.jpg"
+        img_url = "https://i.imgur.com/ZVwD4uw.png"
         responese = send_image_url(sender_id, img_url)
         self.muscle = ["伸腕肌", "屈腕肌", "三頭肌"]
         text = "請選擇要貼紮的部位："
@@ -147,7 +150,7 @@ class TocMachine(GraphMachine):
         output = "I'm entering body"
         print(output)
         sender_id = event['sender']['id']
-        img_url = "https://i.imgur.com/fTj1ubb.jpg"
+        img_url = "https://i.imgur.com/ZIQxPqs.png"
         responese = send_image_url(sender_id, img_url)
         self.muscle = ["三角肌", "豎脊肌"]
         text = "請選擇要貼紮的部位："
@@ -164,7 +167,7 @@ class TocMachine(GraphMachine):
         output = "I'm entering leg"
         print(output)
         sender_id = event['sender']['id']
-        img_url = "https://i.imgur.com/fTj1ubb.jpg"
+        img_url = "https://i.imgur.com/NLuJRIw.png"
         responese = send_image_url(sender_id, img_url)
         self.muscle = ["股四頭肌", "脛前肌", "腓腸肌"]
         text = "請選擇要貼紮的部位："

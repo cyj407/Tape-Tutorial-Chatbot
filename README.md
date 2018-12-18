@@ -1,5 +1,6 @@
 # Tape Tutorial Chatbot
-<img width="100" height="100" src="https://imgur.com/bIQe28E">
+<img width="100" height="100" src="https://imgur.com/bIQe28E.png">
+
 
 A [Facebook messenger bot](https://www.facebook.com/%E8%B2%BC%E7%B4%AE%E6%A9%9F%E5%99%A8%E4%BA%BA-296561760877487/) based on a finite state machine
 
